@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+<p>登录成功</p>
+<h1>添加用户逻辑</h1>
+<form class="insert" th:action="@{/insert}">
+    <label for="id">用户id</label>
+    <input id="id" name="id" type="text"><br>
+    <label for="name">用户姓名</label>
+    <input id="name" name="name" type="text"><br>
+    <label for="sex">用户性别</label>
+    <input id="sex" name="sex" type="text"/><br>
+    <label for="account">用户账号</label>
+    <input id="account" name="account" type="text"><br>
+    <label for="password">用户密码</label>
+    <input id="password" name="password" type="text"/><br>
+    <input type="submit" value="提交，希望不会有错">
+</form>
+<p>查找用户逻辑</p>
+<form th:action="@{/search}">
+    <input type="text" name="id">
+    <input type="submit">
+</form>
+<h1>
+    更新用户逻辑
+</h1>
+<form th:action="@{/update}">
+    <label for="id2">用户id</label>
+    <input id="id2" name="id" type="text"><br>
+    <label for="name2">用户姓名</label>
+    <input id="name2" name="name" type="text"><br>
+    <label for="sex2">用户性别</label>
+    <input id="sex2" name="sex" type="text"/><br>
+    <label for="account2">用户账号</label>
+    <input id="account2" name="account" type="text"><br>
+    <label for="password2">用户密码</label>
+    <input id="password2" name="password" type="text"/><br>
+    <input type="submit" value="提交用户信息更新"/>
+</form>
+
+<h1>图片提交逻辑</h1>
+<form th:action="@{/imginsert}">
+    <input type="text" name="filepath">
+    <input type="submit"/>
+</form>
+
+<h1>图片搜索逻辑</h1>
+<form th:action="@{/searchimg}">
+    <input type="text" name="id"/>
+    <input type="submit"/>
+</form>
+</body>
+</html>

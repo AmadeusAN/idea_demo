@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .filedError {
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+<body>
+<div class="part5">
+    <form th:action="@{/validuser}" th:method="post" th:object="${jsr303User}">
+        <input th:field="*{name}" th:id="${#ids.seq('name')}" type="text" th:errorclass="filedError">
+        <label th:for="${#ids.prev('name')}" th:text="姓名"/>
+        <input th:field="*{email}" th:id="${#ids.seq('email')}" type="text" th:errorclass="filedError">
+        <label th:for="${#ids.prev('email')}" th:text="电子邮箱"/>
+        <input th:field="*{password}" th:id="${#ids.seq('password')}" type="text" th:errorclass="filedError">
+        <label th:for="${#ids.prev('password')}" th:text="密码"/>
+        <input th:value="验证角色" type="submit">
+        <!--        注意，使用该方法返回错误信息，则要求 #fields 在 th:object 的作用域-->
+        <div th:each="err : ${#fields.errors('*')}">
+            <span th:text="${err}"></span><br>
+        </div>
+    </form>
+    <!--        输出错误信息格式二-->
+    <div th:errors="${jsr303User.name}"></div>
+    <!--        输出错误信息格式三，使用 th:if-->
+    <div th:if="${#fields.hasErrors('${jsr303User.email}')}">邮箱格式错啦！！！</div>
+
+    <p th:text="${validmsg}"></p>
+</div>
+
+</body>
+</html>

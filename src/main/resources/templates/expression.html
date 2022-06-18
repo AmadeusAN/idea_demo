@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<style>
+    footer {
+        background-color: black;
+        text-align: center;
+        height: 100px;
+        padding-top: 50px;
+        clear: right;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+
+    }
+
+    footer span {
+
+        border-color: aqua;
+        border-width: 3px;
+        border-style: solid;
+        color: ghostwhite;
+
+    }
+
+    .part1 {
+        width: 20%;
+        border-color: aquamarine;
+        float: left;
+        border-width: 3px;
+        border-style: double;
+    }
+
+    .part2 {
+        float: right;
+        width: 30%;
+        border: 5px solid #800080;
+    }
+
+    .part3 {
+        float: left;
+        border: 3px double greenyellow;
+        width: 20%;
+    }
+
+    .part4 {
+        float: left;
+        border: 3px double palevioletred;
+        width: 23%
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="part1">
+
+    <p th:text="4*5"></p>
+    <p th:if="${user.name=='AN_HUN_'}">名称匹配</p>
+
+    尝试传入字符串常量
+    <p th:text="abc+bca"></p>
+    单引号内可以传入任意字符，都不会被转义
+    <p th:text="'${abc+b}'"></p>
+
+    关系运算符解析
+    <p th:text="2>1"></p>
+    <p th:text="2 gt 1"></p>
+    <p th:text="${2 &lt; 1}"></p>
+
+    条件运算符
+    <p th:text="${0>1}?'Jack': 'July'"></p></div>
+<div class="part2">
+    数据转换测试
+    <p th:text="${{user}}"></p>
+    <p th:text="${user}"></p>
+    <P th:text="#{text.test}"></P>
+    <input th:attr="value=#{'text.submit'}" type="submit" value="what">
+    <input th:attrappend="value='-appendvalue'" th:value="#{text.submit}" type="submit" value="what">
+    <input th:attrappend="value='-appendedvalue'" type="submit" value="what">
+
+    </br>
+
+    条件判断测试
+    <p th:if="${user.id == 1}" th:text="'条件成立，直接输出'"></p>
+    <p th:if="off" th:text="false">按道理这里不会出现</p>
+
+    三目运算符测试
+    <p th:text=" '希望这段话能输出' + ${user.id==1 ? 'yes' : '1' }"></p>
+
+    switch,case测试
+    <select th:switch="${user.id}">
+        <option th:case="1">表示ID为1的用户</option>
+        <option th:case="2">表示ID为2的用户</option>
+        <option th:case="*">表示无法匹配的用户</option>
+        <option>html文件中的其他选项</option>
+    </select></br>
+
+    Map 迭代测试
+    <table>
+        <tr th:each="user,iterState: ${userMap}"
+            th:style=" |background-color:| + ${iterState.odd ? 'white' : 'gray' }+ |;|">
+            <td th:text="${user.key}+'-----'+${user.value.name}"></td>
+        </tr>
+    </table>
+    </br>
+    星号表达式测试
+    <table>
+        <tr th:object="${user}">
+            <td th:text="*{id}"></td>
+            <td th:text="*{name}"></td>
+        </tr>
+    </table>
+
+</div>
+<div class="part3">
+    模板片断测试
+    <!--    <div th:insert="~{public::/div[1]}"></div>-->
+    <div th:insert="~{public::p}"></div>
+    <div th:insert="~{public :: /div/span.showshowway}"></div>
+    <!--    <div th:insert="~{public::span[id='cancanneed']}"></div>-->
+    <div th:insert="~{public :: span#cancanneed}"></div>
+
+    片断参数测试
+    <div th:replace="~{public :: param('23','someone')}"></div>
+    <div th:replace="~{public :: param(${user.id},${user.name})}"></div>
+    <div th:replace="~{public :: objectparam(${user})}"></div>
+
+    片断块引用
+    <table>
+        <th:block th:each="user : ${users}">
+            <tr>
+                <td th:text="${user.name}"/>
+            </tr>
+        </th:block>
+    </table>
+    <table>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.name}"></td>
+        </tr>
+    </table>
+    <!--    注释测试1-->
+    <!--/* 注释测试2，该注释不会被 */-->
+    <!--/*/ <p th:text="'注释测试3，注释仍可被解析输出，但若直接在浏览器中打开则无法看见'"/> /*/-->
+    <div>
+        内联语法测试，[[${user.name}]]
+    </div>
+</div>
+
+<div class="part4">
+    <div id="search">搜索设置
+        <form th:action="@{/tobaidu}">
+            <input (type="text" name="question"/>
+            <input type="submit"/>
+        </form>
+    </div>
+    <div>
+        表单元素处理
+        <form method="post" th:action="@{/form}" th:object="${user}">
+            <input th:field="*{name}" type="text"/><br>
+            <input th:field="*{id}" type="text"/>
+            <input th:field="*{sex}" type="text"/>
+            <input type="submit" value="直接就交"/>
+        </form>
+        单选框、复选框id、选择框配置
+        <form method="post" th:object="${user}">
+            <!--            <input type="text" th:field="*{name}" th:id="${#ids.seq('name')}"/>-->
+            <!--            <input type="text" th:field="*{name}" th:id="${#ids.seq('name')}"/><br>-->
+            <input th:field="*{name}" th:value="*{name}" type="radio"/>
+            <label th:for="${#ids.prev('name')}" th:text="A"/>
+            <input th:field="*{name}" th:value="*{name}" type="radio"/>
+            <label th:for="${#ids.prev('name')}" th:text="B"/>
+            <input th:field="*{name}" th:value="*{name}" type="checkbox"/>
+            <label th:for="${#ids.prev('name')}" th:text="C1"/>
+            <input th:field="*{name}" th:value="*{name}" type="checkbox"/>
+            <label th:for="${#ids.prev('name')}" th:text="C2"/>
+            <select th:field="*{sex}">
+                <option th:each="sexc: ${sexs}" th:text="${sexc}" th:value="${sexc}"></option>
+            </select>
+            <table>
+                <tr th:each="sexc: ${sexs}">
+                    <td>
+                        <input th:field="*{sex}" th:value="${sexc}" type="radio">
+                        <label th:for="${#ids.prev('sex')}" th:text="${sexc}"></label>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        radio，checkbox配置与提交测试
+        <form method="post" th:action="@{/radioandcheckbox}" th:object="${testUser}">
+            <table>
+                <tr th:each="itersingle: ${singles}">
+                    <td>
+                        <input th:field="*{single}" th:value="${itersingle}" type="radio">
+                        <label th:for="${#ids.prev('single')}" th:text="${itersingle}"></label>
+                    </td>
+                </tr>
+                <tr th:each="iterplural: ${plurals}">
+                    <td>
+                        <input th:field="*{plural}" th:value="${iterplural}" type="checkbox">
+                        <label th:for="${#ids.prev('plural')}" th:text="${iterplural}"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input th:value="我特么直接提交" type="submit">
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+</div>
+<div class="part5">
+    <form th:action="@{/valid}">
+        <input type="submit" th:value="验证角色">
+    </form>
+</div>
+
+</body>
+<footer>
+    <div th:insert="public::frag1"></div>
+    <br>
+    <span th:insert="~{public :: %frag2}"></span><br>
+    <span>默认页脚信息</span>
+</footer>
+</html>

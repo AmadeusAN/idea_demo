@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer"/>
+
+    <title>图片</title>
+</head>
+<body>
+<h1 th:text="${imgname}"></h1>
+<h2>容器路径如下</h2>
+<p th:text="${#ctx.#servletContext.getRealPath(imgname)}"></p>
+<img th:src="${#ctx.#servletContext.getRealPath(imgname)}" alt="数据库提取出并放置临时文件夹的图片"/>
+
+</body>
+</html>

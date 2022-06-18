@@ -1,0 +1,26 @@
+<span th:fragment="frag1">@独立的页脚版权信息</span>
+<span th:fragment="frag2">@另一个信息</span>
+<div>
+    外部子节点div[0]的直接信息
+    <p>尝试输出该节点的子节点信息p
+        <span class="showshowway">这是使用了class属性节点
+            <span>这里是使用属性class值节点的子节点span</span>
+        </span>
+        <span id="cancanneed">这里是使用了id 属性节点
+            <span>这里是使用了id属性节点的子节点</span>
+        </span>
+    </p>
+
+</div>
+<div>
+    另一个div[1]
+    <p>这里同样是div[1]的子节点p</p>
+    <span class="showshowway">这里是div[1]的子节点span</span>
+</div>
+
+<div th:fragment="param(id,name)">
+    <span th:text="'id为'+${id}+'对应的名字是'+${name}"></span>
+</div>
+<div th:fragment="objectparam(user)">这边是直接传入一个对象，并调用对象的属性
+    <span th:text="${user.id}+''+${user.name}"></span>
+</div>

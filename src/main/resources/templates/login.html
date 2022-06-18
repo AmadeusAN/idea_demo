@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>尝试制作以后用于Web项目的通用模板</title>
+    <style>
+        .errorfield {
+            /*background-color: #FFC1C1;*/
+            border: red solid 1px;
+        }
+
+        form.login {
+            border: black solid 1px;
+            border-radius: 10px;
+            width: 30%;
+            margin: 15% auto;
+            padding: 10px 5px;
+            text-align: center;
+        }
+
+        input {
+            border-radius: 10px;
+            margin-right: 15%;
+            border: black solid 1px;
+
+        }
+
+        .errors {
+            margin: auto;
+            background-color: aqua;
+            border: black solid 1px;
+            border-radius: 10px;
+            margin: 5px auto;
+            font-size: 50%;
+            width: 30%;
+            text-align: center;
+            padding: 2px 2px;
+        }
+
+        #msg {
+            margin: auto;
+            background-color: greenyellow;
+            border: black solid 1px;
+            border-radius: 10px;
+            margin: 5px auto;
+            font-size: 50%;
+            width: 30%;
+            text-align: center;
+            padding: 2px 2px;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+    用户登录
+</header>
+<form class="login" th:action="@{/check}" th:method="post" th:object="${user}">
+    <legend>请输入登录账号和密码</legend>
+    <label th:for="${#ids.next('account')}">账号：</label>
+    <input th:field="*{account}" th:id="${#ids.seq('account')}" type="text" th:errorclass="errorfield"/><br/>
+    <label th:for="${#ids.next('password')}">密码：</label>
+    <input th:field="*{password}" th:id="${#ids.seq('password')}" type="text" th:errorclass="errorfield"/>
+    <br/>
+    <div th:id="msg" th:text="${msg}"></div>
+    <div class="errors" th:each="err : ${#fields.errors('*')}">
+        <span th:text="${err}"></span><br/>
+    </div>
+    <input type="submit" value="登录或注册"/>
+</form>
+</body>
+</html>
